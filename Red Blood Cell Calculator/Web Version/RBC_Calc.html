@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Red Blood Cell Calc (HTML)</title>
+    <style>
+        :root { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+        body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .screen { width: 420px; max-width: calc(100% - 24px); padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; }
+        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 0.95rem; color: #111; }
+        input[type="number"] { padding: 12px; font-size: 1rem; border: 1px solid #bbb; border-radius: 6px; }
+        .output-row { display: flex; gap: 8px; align-items: baseline; margin-top: 12px; }
+        .output-row .label { color: #333; font-weight: 600; }
+        .output-row .value { color: #111; font-size: 1rem; }
+        .calculate-btn { margin: 28px auto 88px; padding: 10px 18px; font-size: 1rem; border: none; background: #1976d2; color: white; border-radius: 6px; cursor: pointer; }
+        .calculate-btn:active { transform: translateY(1px); }
+        footer { height: 64px; } /* space for bottom button */
+    </style>
+</head>
+<body>
+    <main class="screen" role="main" aria-labelledby="title">
+        <h1 id="title" style="font-size:1.1rem;margin:0 0 6px 0">Red Blood Cell Calculator</h1>
+
+        <!-- RBC input -->
+        <div class="input-group">
+            <label for="rbc_input">Enter Red Blood Cell Count</label>
+            <input id="rbc_input" type="number" step="any" inputmode="decimal" placeholder="e.g. 4.5" />
+        </div>
+
+        <!-- Protein input -->
+        <div class="input-group">
+            <label for="protein_input">Enter Protein Count (can be zero)</label>
+            <input id="protein_input" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.8" />
+        </div>
+
+        <!-- WBC input -->
+        <div class="input-group">
+            <label for="wbc_input">Enter White Blood Cell Count (can be zero)</label>
+            <input id="wbc_input" type="number" step="any" inputmode="decimal" placeholder="e.g. 7.2" />
+        </div>
+
+        <!-- Calculated outputs -->
+        <div class="output-row" aria-live="polite">
+            <span class="label">Calculated Protein Count:</span>
+            <span id="calculated_protein" class="value">0</span>
+        </div>
+
+        <div class="output-row" aria-live="polite">
+            <span class="label">Calculated WBC Count:</span>
+            <span id="calculated_wbc" class="value">0</span>
+        </div>
+
+        <!-- Calculate button -->
+        <button id="calculate_button" class="calculate-btn" type="button">Calculate</button>
+    </main>
+
+    <footer></footer>
+
+    <script>
+        // Minimal example: copies inputs to outputs. Replace with your real calculation.
+        const rbcInput = document.getElementById('rbc_input');
+        const proteinInput = document.getElementById('protein_input');
+        const wbcInput = document.getElementById('wbc_input');
+        const calcProtein = document.getElementById('calculated_protein');
+        const calcWbc = document.getElementById('calculated_wbc');
+        const btn = document.getElementById('calculate_button');
+
+        btn.addEventListener('click', () => {
+            // parse numbers (allow empty = 0)
+            const rbc = parseFloat(rbcInput.value) || 0;
+            const protein = parseFloat(proteinInput.value) || 0;
+            const wbc = parseFloat(wbcInput.value) || 0;
+
+            // Example behavior: show the entered protein and wbc; adjust as needed.
+            calcProtein.textContent = String(protein - ((rbc / 1000) * 1.1));
+            calcWbc.textContent = String(wbc - (rbc / 500));
+
+            // If you need to compute derived values, modify the lines above.
+        });
+    </script>
+</body>
+</html>
